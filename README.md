@@ -85,6 +85,7 @@ Aucune modification de code n'est nécessaire — le chargeur de plugins détect
 
 - **Magic Todo** — Décompose les tâches en sous-tâches
 - **Task Master** — Ordonnancement et priorisation des tâches (utilise le résultat de Magic Todo)
+- **Professor** — Explication pédagogique de concepts complexes
 - **Formalizer** — Professionalise un texte
 - **Judge** — Détection et analyse du ton d'un texte
 - **Estimator** — Estimation de temps et ressources

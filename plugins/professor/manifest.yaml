@@ -1,0 +1,7 @@
+name: Professor
+description: Explique un concept ou un texte complexe comme un professeur le ferait, de façon claire et pédagogique
+icon: graduation-cap
+temperature: 0.2
+max_tokens: 4096
+category: writing
+prompt_file: prompt.md
