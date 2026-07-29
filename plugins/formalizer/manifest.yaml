@@ -1,0 +1,9 @@
+name: Formalizer
+description: Transforme un texte informel, relâché ou émotionnel en un style professionnel et neutre
+icon: sparkles
+provider: ollama
+model: qwen2.5:1.5b
+temperature: 0.3
+max_tokens: 2048
+category: writing
+prompt_file: prompt.md

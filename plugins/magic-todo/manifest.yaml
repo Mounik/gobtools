@@ -1,0 +1,9 @@
+name: Magic Todo
+description: Décompose n'importe quelle tâche complexe en sous-tâches claires et actionnables
+icon: list-checks
+provider: ollama
+model: qwen2.5:1.5b
+temperature: 0.2
+max_tokens: 4096
+category: productivity
+prompt_file: prompt.md

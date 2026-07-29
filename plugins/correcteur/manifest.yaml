@@ -1,0 +1,9 @@
+name: Correcteur
+description: Corrige les fautes d'orthographe, de grammaire et de style d'un texte
+icon: spell-check
+provider: ollama
+model: qwen2.5:1.5b
+temperature: 0.1
+max_tokens: 4096
+category: writing
+prompt_file: prompt.md

@@ -1,0 +1,9 @@
+name: Compiler
+description: Compile, synthétise et organise des informations éparses en un document structuré
+icon: files
+provider: ollama
+model: qwen2.5:1.5b
+temperature: 0.3
+max_tokens: 4096
+category: writing
+prompt_file: prompt.md

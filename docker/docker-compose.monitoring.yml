@@ -1,0 +1,44 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.0
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - gobtools
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    volumes:
+      - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+    depends_on:
+      - prometheus
+      - loki
+    networks:
+      - gobtools
+
+  loki:
+    image: grafana/loki:3.1.0
+    volumes:
+      - ./loki/loki.yml:/etc/loki/local-config.yaml
+      - loki-data:/loki
+    ports:
+      - "3100:3100"
+    networks:
+      - gobtools
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  loki-data:
+
+networks:
+  gobtools:
+    external: true
