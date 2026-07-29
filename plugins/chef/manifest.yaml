@@ -1,8 +1,6 @@
 name: Chef
 description: Suggère des recettes et idées culinaires à partir d'ingrédients disponibles
 icon: cooking-pot
-provider: ollama
-model: qwen2.5:1.5b
 temperature: 0.5
 max_tokens: 2048
 category: lifestyle

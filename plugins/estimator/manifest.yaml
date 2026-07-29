@@ -1,8 +1,6 @@
 name: Estimator
 description: Estime le temps, l'effort et les ressources nécessaires pour accomplir une tâche
 icon: timer
-provider: ollama
-model: qwen2.5:1.5b
 temperature: 0.1
 max_tokens: 2048
 category: productivity

@@ -34,7 +34,7 @@ class ToolService:
         system_prompt = plugin_loader.get_prompt(req.tool_slug)
 
         provider_name = req.provider or manifest.provider or settings.LLM_PROVIDER
-        model = req.model or manifest.model or settings.LLM_MODEL
+        model = req.model or settings.LLM_MODEL or manifest.model
         temperature = (
             req.temperature
             if req.temperature is not None

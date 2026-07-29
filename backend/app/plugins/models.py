@@ -6,8 +6,8 @@ class PluginManifest(BaseModel):
     slug: str = ""
     description: str = ""
     icon: str = "wand"
-    provider: str = "ollama"
-    model: str = "qwen3"
+    provider: str = ""
+    model: str = ""
     temperature: float = 0.2
     max_tokens: int = 4096
     category: str = "general"

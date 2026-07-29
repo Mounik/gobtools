@@ -1,8 +1,6 @@
 name: Traducteur
 description: Traduit un texte entre différentes langues en conservant le ton et le contexte
 icon: languages
-provider: ollama
-model: qwen2.5:1.5b
 temperature: 0.1
 max_tokens: 4096
 category: writing

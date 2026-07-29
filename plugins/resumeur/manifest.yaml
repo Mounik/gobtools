@@ -1,8 +1,6 @@
 name: Résumeur
 description: Résume des textes longs en conservant l'essentiel de l'information
 icon: text
-provider: ollama
-model: qwen2.5:1.5b
 temperature: 0.2
 max_tokens: 2048
 category: writing

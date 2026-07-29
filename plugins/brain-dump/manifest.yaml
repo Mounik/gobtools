@@ -1,8 +1,6 @@
 name: Brain Dump
 description: Organise un flux de pensées désordonnées en notes structurées et exploitables
 icon: brain
-provider: ollama
-model: qwen2.5:1.5b
 temperature: 0.4
 max_tokens: 4096
 category: productivity

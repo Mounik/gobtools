@@ -58,11 +58,11 @@ Exemple de `manifest.yaml` :
 name: Mon Outil
 description: Ce qu'il fait
 icon: sparkles
-provider: ollama
-model: qwen3
 temperature: 0.2
 category: productivity
 ```
+
+Le `provider` et le `model` sont définis globalement dans `.env` et s'appliquent à tous les outils.
 
 Aucune modification de code n'est nécessaire — le chargeur de plugins détecte automatiquement les nouveaux outils au démarrage.
 
@@ -99,12 +99,20 @@ Configuration via `.env` :
 
 | Fournisseur | Variable d'env | Modèle par défaut |
 |-------------|---------------|-------------------|
-| Ollama | `OLLAMA_BASE_URL` | qwen3 |
+| Ollama | `OLLAMA_BASE_URL` | qwen2.5:1.5b |
 | OpenAI | `OPENAI_API_KEY` | gpt-4o |
 | Anthropic | `ANTHROPIC_API_KEY` | claude-sonnet-4-20250514 |
 | Gemini | `GEMINI_API_KEY` | gemini-2.0-flash |
 | Mistral | `MISTRAL_API_KEY` | mistral-large-latest |
 | OpenRouter | `OPENROUTER_API_KEY` | openai/gpt-4o |
+
+### Ordre de priorité du modèle
+
+1. **Requête API** (`model` dans le body de `POST /api/v1/run`) — priorité maximale
+2. **Variable d'environnement** (`LLM_MODEL` dans `.env`) — priorité moyenne
+3. **Manifeste du plugin** (`model` dans `plugins/*/manifest.yaml`) — priorité minimale
+
+Le modèle défini dans `.env` écrase donc celui du manifeste de chaque outil.
 
 ## Développement
 

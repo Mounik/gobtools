@@ -1,8 +1,6 @@
 name: Judge
 description: Analyse un texte, une situation ou une décision avec une grille d'évaluation objective
 icon: scale
-provider: ollama
-model: qwen2.5:1.5b
 temperature: 0.1
 max_tokens: 2048
 category: analysis
