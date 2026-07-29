@@ -1,0 +1,7 @@
+name: Task Master
+description: Prend une liste de tâches et les organise par ordre de priorité avec un planning d'exécution
+icon: calendar-check
+temperature: 0.2
+max_tokens: 4096
+category: productivity
+prompt_file: prompt.md

@@ -83,6 +83,7 @@ Aucune modification de code n'est nécessaire — le chargeur de plugins détect
 ## Outils disponibles
 
 - **Magic Todo** — Décompose les tâches en sous-tâches
+- **Task Master** — Ordonnancement et priorisation des tâches (utilise le résultat de Magic Todo)
 - **Formalizer** — Professionalise un texte
 - **Judge** — Analyse objective
 - **Estimator** — Estimation de temps et ressources
@@ -92,6 +93,16 @@ Aucune modification de code n'est nécessaire — le chargeur de plugins détect
 - **Résumeur** — Résumé de textes
 - **Traducteur** — Traduction entre langues
 - **Correcteur** — Correction orthographique et grammaticale
+
+## Chaînage d'outils
+
+Certains outils peuvent être enchaînés. Par exemple :
+
+1. **Magic Todo** décompose une tâche en sous-tâches
+2. Le bouton **"Ordonnancer avec Task Master"** apparaît après l'exécution
+3. **Task Master** reçoit automatiquement le résultat de Magic Todo pour le prioriser
+
+Tous les résultats sont persistés en base de données (PostgreSQL) et accessibles via `GET /api/v1/history`.
 
 ## Fournisseurs de modèles
 

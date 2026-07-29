@@ -1,7 +1,7 @@
 "use client"
 
 import { useParams, useRouter } from "next/navigation"
-import { ArrowLeft, Loader2, Sparkles } from "lucide-react"
+import { ArrowLeft, Loader2, Sparkles, ArrowRight } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
@@ -22,6 +22,16 @@ export default function ToolPage() {
   const [result, setResult] = useState<RunResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    if (slug === "taskmaster") {
+      const prefill = sessionStorage.getItem("magic-todo-result")
+      if (prefill) {
+        setInput(prefill)
+        sessionStorage.removeItem("magic-todo-result")
+      }
+    }
+  }, [slug])
 
   useEffect(() => {
     textareaRef.current?.focus()
@@ -125,6 +135,20 @@ export default function ToolPage() {
               {result.output}
             </ReactMarkdown>
           </div>
+          {slug === "magic-todo" && (
+            <div className="mt-4 border-t pt-4">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  sessionStorage.setItem("magic-todo-result", result.output)
+                  router.push("/tools/taskmaster")
+                }}
+              >
+                <ArrowRight className="mr-2 h-4 w-4" />
+                Ordonnancer avec Task Master
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
