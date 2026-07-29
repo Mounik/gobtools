@@ -39,6 +39,7 @@ class Settings(BaseSettings):
     OPENROUTER_MODEL: str = "openai/gpt-4o"
 
     PLUGINS_DIR: str = "/app/plugins"
+    PDF_MAX_SIZE_MB: int = 30
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 

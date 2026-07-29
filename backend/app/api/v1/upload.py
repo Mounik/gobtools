@@ -1,10 +1,11 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File
 
+from app.core.config import settings
 from app.services.pdf_service import extract_text_from_pdf
 
 router = APIRouter(prefix="/upload", tags=["upload"])
 
-MAX_FILE_SIZE = 10 * 1024 * 1024
+MAX_FILE_SIZE = settings.PDF_MAX_SIZE_MB * 1024 * 1024
 
 
 @router.post("/pdf")
@@ -19,7 +20,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     if len(content) > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=413,
-            detail="Le fichier dépasse la taille maximale de 10 Mo",
+            detail=f"Le fichier dépasse la taille maximale de {settings.PDF_MAX_SIZE_MB} Mo",
         )
 
     try:
