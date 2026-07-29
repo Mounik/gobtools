@@ -1,0 +1,7 @@
+name: Conseiller
+description: Analyse une situation ou une décision et présente les pour et les contre objectifs
+icon: briefcase
+temperature: 0.2
+max_tokens: 4096
+category: analysis
+prompt_file: prompt.md

@@ -89,7 +89,7 @@ Aucune modification de code n'est nécessaire — le chargeur de plugins détect
 - **Formalizer** — Professionalise un texte
 - **Judge** — Détection et analyse du ton d'un texte
 - **Estimator** — Estimation de temps et ressources
-- **Compiler** — Synthèse d'informations éparses
+- **Conseiller** — Analyse pour/contre pour la prise de décision
 - **Chef** — Suggestions de recettes
 - **Brain Dump** — Organisation des pensées
 - **Résumeur** — Résumé de textes
