@@ -91,6 +91,10 @@ Aucune modification de code n'est nécessaire — le chargeur de plugins détect
 - **Estimator** — Estimation de temps et ressources
 - **Conseiller** — Analyse pour/contre pour la prise de décision
 - **Chef** — Suggestions de recettes
+- **Script d'appel** — Script prêt à lire pour appels téléphoniques
+- **Premier Pas** — Première action minuscule pour démarrer une tâche bloquante
+- **Routine** — Routines structurées étape par étape
+- **Clarté** — Reformulation en langage clair et littéral
 - **Brain Dump** — Organisation des pensées
 - **Résumeur** — Résumé de textes
 - **Traducteur** — Traduction entre langues

@@ -1,0 +1,7 @@
+name: Premier Pas
+description: Décompose une tâche qui semble insurmontable en une toute première action simple et réalisable
+icon: footprints
+temperature: 0.1
+max_tokens: 2048
+category: productivity
+prompt_file: prompt.md

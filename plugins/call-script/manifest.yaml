@@ -1,0 +1,7 @@
+name: Script d'appel
+description: Génère un script prêt à lire pour vos appels téléphoniques (médecin, administration, commande...)
+icon: phone
+temperature: 0.1
+max_tokens: 2048
+category: productivity
+prompt_file: prompt.md
