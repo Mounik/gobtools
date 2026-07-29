@@ -28,6 +28,19 @@ async function fetchApi<T>(
 }
 
 export const api = {
+  uploadPdf: async (file: File) => {
+    const formData = new FormData()
+    formData.append("file", file)
+    const res = await fetch(`${API_BASE}/upload/pdf`, {
+      method: "POST",
+      body: formData,
+    })
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(text || res.statusText)
+    }
+    return res.json() as Promise<{ filename: string; text: string; length: number }>
+  },
   listTools: () => fetchApi<ToolInfo[]>("/tools"),
 
   getTool: (slug: string) => fetchApi<ToolDetail>(`/tools/${slug}`),

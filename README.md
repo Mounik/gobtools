@@ -73,6 +73,7 @@ Aucune modification de code n'est nécessaire — le chargeur de plugins détect
 | GET | `/api/v1/tools` | Liste tous les outils |
 | GET | `/api/v1/tools/{slug}` | Détail d'un outil |
 | POST | `/api/v1/run` | Exécuter un outil |
+| POST | `/api/v1/upload/pdf` | Extraire le texte d'un PDF |
 | GET | `/api/v1/history` | Historique (paginé) |
 | DELETE | `/api/v1/history/{id}` | Supprimer une entrée |
 | GET | `/api/v1/favorites` | Liste des favoris |

@@ -1,12 +1,13 @@
 "use client"
 
 import { useParams, useRouter } from "next/navigation"
-import { ArrowLeft, Loader2, Sparkles, ArrowRight } from "lucide-react"
+import { ArrowLeft, Loader2, Sparkles, ArrowRight, Upload } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { useTool } from "@/hooks/useTools"
 import { useRunTool } from "@/hooks/useRunTool"
+import { api } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -21,7 +22,25 @@ export default function ToolPage() {
   const [input, setInput] = useState("")
   const [result, setResult] = useState<RunResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setError(null)
+    try {
+      const { text } = await api.uploadPdf(file)
+      setInput((prev) => (prev ? `${prev}\n\n${text}` : text))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erreur lors de l'upload")
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ""
+    }
+  }
 
   useEffect(() => {
     if (slug === "taskmaster") {
@@ -114,6 +133,26 @@ export default function ToolPage() {
               </>
             ) : (
               "Lancer"
+            )}
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".pdf"
+            onChange={handlePdfUpload}
+            className="hidden"
+          />
+          <Button
+            variant="outline"
+            size="icon"
+            disabled={uploading}
+            onClick={() => fileInputRef.current?.click()}
+            title="Importer un PDF"
+          >
+            {uploading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Upload className="h-4 w-4" />
             )}
           </Button>
           <span className="text-xs text-muted-foreground">

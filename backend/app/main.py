@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import make_asgi_app
 
-from app.api.v1 import export, favorites, history, run, tools
+from app.api.v1 import export, favorites, history, run, tools, upload
 from app.plugins.loader import plugin_loader
 from app.providers.anthropic import AnthropicProvider
 from app.providers.gemini import GeminiProvider
@@ -47,6 +47,7 @@ app.include_router(run.router, prefix="/api/v1")
 app.include_router(history.router, prefix="/api/v1")
 app.include_router(favorites.router, prefix="/api/v1")
 app.include_router(export.router, prefix="/api/v1")
+app.include_router(upload.router, prefix="/api/v1")
 
 metrics_app = make_asgi_app()
 app.mount("/metrics", metrics_app)
