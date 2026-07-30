@@ -55,6 +55,24 @@ export interface FavoriteItem {
   icon: string
 }
 
+export interface KanbanBoard {
+  id: string
+  name: string
+  created_at: string
+  tasks: KanbanTask[]
+}
+
+export interface KanbanTask {
+  id: string
+  board_id: string
+  title: string
+  description: string
+  column: "todo" | "in_progress" | "done"
+  position: number
+  priority: "low" | "medium" | "high" | "critical"
+  created_at: string
+}
+
 export interface SettingsUpdate {
   provider?: string
   model?: string

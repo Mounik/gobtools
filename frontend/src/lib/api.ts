@@ -1,6 +1,8 @@
 import type {
   FavoriteItem,
   HistoryEntry,
+  KanbanBoard,
+  KanbanTask,
   PaginatedHistory,
   RunRequest,
   RunResponse,
@@ -83,4 +85,32 @@ export const api = {
       `/favorites/${toolSlug}?user_id=${USER_ID}`,
       { method: "DELETE" }
     ),
+
+  listKanbanBoards: () => fetchApi<KanbanBoard[]>("/kanban/boards"),
+
+  createKanbanBoard: (data: { name: string; tasks?: Partial<KanbanTask>[] }) =>
+    fetchApi<KanbanBoard>("/kanban/boards", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  getKanbanBoard: (id: string) => fetchApi<KanbanBoard>(`/kanban/boards/${id}`),
+
+  deleteKanbanBoard: (id: string) =>
+    fetchApi<{ ok: boolean }>(`/kanban/boards/${id}`, { method: "DELETE" }),
+
+  addKanbanTask: (boardId: string, data: Partial<KanbanTask>) =>
+    fetchApi<KanbanTask>(`/kanban/boards/${boardId}/tasks`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  updateKanbanTask: (taskId: string, data: Partial<KanbanTask>) =>
+    fetchApi<KanbanTask>(`/kanban/tasks/${taskId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  deleteKanbanTask: (taskId: string) =>
+    fetchApi<{ ok: boolean }>(`/kanban/tasks/${taskId}`, { method: "DELETE" }),
 }

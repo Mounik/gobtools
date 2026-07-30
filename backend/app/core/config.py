@@ -40,6 +40,7 @@ class Settings(BaseSettings):
 
     PLUGINS_DIR: str = "/app/plugins"
     PDF_MAX_SIZE_MB: int = 30
+    HISTORY_DB_PATH: str = "data/history.db"
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 

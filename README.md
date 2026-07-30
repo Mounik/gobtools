@@ -23,6 +23,8 @@ Plateforme open source d'outils propulsés par LLM — une alternative modulaire
 cp .env.example .env
 # Modifier .env avec vos clés API
 
+# Lancer et build
+docker compose -f docker/docker-compose.yml up -d --build
 # Pour lancer les conteneurs
 docker compose -f docker/docker-compose.yml up -d
 # Pour arreter les conteneurs
@@ -66,21 +68,6 @@ Le `provider` et le `model` sont définis globalement dans `.env` et s'appliquen
 
 Aucune modification de code n'est nécessaire — le chargeur de plugins détecte automatiquement les nouveaux outils au démarrage.
 
-## Points d'API
-
-| Méthode | Chemin | Description |
-|---------|--------|-------------|
-| GET | `/api/v1/tools` | Liste tous les outils |
-| GET | `/api/v1/tools/{slug}` | Détail d'un outil |
-| POST | `/api/v1/run` | Exécuter un outil |
-| POST | `/api/v1/upload/pdf` | Extraire le texte d'un PDF |
-| GET | `/api/v1/history` | Historique (paginé) |
-| DELETE | `/api/v1/history/{id}` | Supprimer une entrée |
-| GET | `/api/v1/favorites` | Liste des favoris |
-| POST | `/api/v1/favorites` | Ajouter un favori |
-| DELETE | `/api/v1/favorites/{slug}` | Supprimer un favori |
-| POST | `/api/v1/export` | Exporter (markdown/txt/json/pdf) |
-
 ## Outils disponibles
 
 - **Magic Todo** — Décompose les tâches en sous-tâches
@@ -107,8 +94,38 @@ Certains outils peuvent être enchaînés. Par exemple :
 1. **Magic Todo** décompose une tâche en sous-tâches
 2. Le bouton **"Ordonnancer avec Task Master"** apparaît après l'exécution
 3. **Task Master** reçoit automatiquement le résultat de Magic Todo pour le prioriser
+4. Le bouton **"Créer un tableau Kanban"** dans le résultat de Task Master importe les tâches dans un board interactif avec drag & drop
 
-Tous les résultats sont persistés en base de données (PostgreSQL) et accessibles via `GET /api/v1/history`.
+Tous les résultats sont persistés dans une base SQLite et accessibles via `GET /api/v1/history`.
+
+## Tableaux Kanban
+
+Les tableaux Kanban permettent d'organiser visuellement les tâches avec drag & drop entre les colonnes **À faire**, **En cours** et **Terminé**.
+- Accès via le lien **Kanban** dans la barre de navigation
+- Création depuis le résultat de **Task Master** ou depuis l'**Historique**
+- Ajout de tâches, édition inline, suppression, déplacement par glissé-déposé
+
+## API
+
+| Méthode | Chemin | Description |
+|---------|--------|-------------|
+| GET | `/api/v1/tools` | Liste tous les outils |
+| GET | `/api/v1/tools/{slug}` | Détail d'un outil |
+| POST | `/api/v1/run` | Exécuter un outil |
+| POST | `/api/v1/upload/pdf` | Extraire le texte d'un PDF |
+| GET | `/api/v1/history` | Historique (paginé) |
+| DELETE | `/api/v1/history/{id}` | Supprimer une entrée |
+| GET | `/api/v1/favorites` | Liste des favoris |
+| POST | `/api/v1/favorites` | Ajouter un favori |
+| DELETE | `/api/v1/favorites/{slug}` | Supprimer un favori |
+| POST | `/api/v1/export` | Exporter (markdown/txt/json/pdf) |
+| GET | `/api/v1/kanban/boards` | Liste des tableaux Kanban |
+| POST | `/api/v1/kanban/boards` | Créer un tableau Kanban |
+| GET | `/api/v1/kanban/boards/{id}` | Détail d'un tableau (avec tâches) |
+| DELETE | `/api/v1/kanban/boards/{id}` | Supprimer un tableau |
+| POST | `/api/v1/kanban/boards/{id}/tasks` | Ajouter une tâche |
+| PUT | `/api/v1/kanban/tasks/{id}` | Modifier une tâche (colonne, position…) |
+| DELETE | `/api/v1/kanban/tasks/{id}` | Supprimer une tâche |
 
 ## Fournisseurs de modèles
 

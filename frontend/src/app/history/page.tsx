@@ -1,26 +1,80 @@
 "use client"
 
 import { useState } from "react"
-import { Copy, Trash2, ArrowLeft, Search, X } from "lucide-react"
+import { Copy, Trash2, ArrowLeft, Search, X, Columns3 } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useHistory, useDeleteHistory } from "@/hooks/useHistory"
+import { useCreateKanbanBoard } from "@/hooks/useKanban"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 
+function extractTasks(markdown: string): { title: string; description: string }[] {
+  const tasks: { title: string; description: string }[] = []
+  const lines = markdown.split("\n")
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+
+    const checkbox = line.match(/^- \[.]\s+(?:\d+\.\s+)?\*\*(.+?)\*\*(.*)/)
+    if (checkbox) {
+      const title = checkbox[1].trim()
+      let desc = checkbox[2].replace(/^[—–-]\s*/, "").trim()
+      let j = i + 1
+      while (j < lines.length && /^\s{2,}-?\s/.test(lines[j])) {
+        const sub = lines[j].replace(/^\s{2,}-?\s*/, "").trim()
+        if (sub) desc += (desc ? " " : "") + sub
+        j++
+      }
+      if (title) tasks.push({ title, description: desc })
+      continue
+    }
+
+    const table = line.match(/^\|.*\*\*(.+?)\*\*(.*?)\|/)
+    if (table) {
+      const title = table[1].trim()
+      let desc = table[2].replace(/[—–-]\s*/, "").trim()
+      if (desc.endsWith("|")) desc = desc.slice(0, -1).trim()
+      if (title && !tasks.some((t) => t.title === title)) {
+        tasks.push({ title, description: desc })
+      }
+    }
+  }
+  return tasks
+}
+
 export default function HistoryPage() {
+  const router = useRouter()
   const [search, setSearch] = useState("")
   const [page, setPage] = useState(1)
   const { data, isLoading } = useHistory(page, search || undefined)
   const { mutate: deleteEntry } = useDeleteHistory()
+  const createKanban = useCreateKanbanBoard()
   const [copiedId, setCopiedId] = useState<string | null>(null)
 
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text)
     setCopiedId(id)
     setTimeout(() => setCopiedId(null), 2000)
+  }
+
+  const handleCreateKanban = (name: string, output: string) => {
+    const tasks = extractTasks(output)
+    if (tasks.length === 0) return
+    createKanban.mutate(
+      {
+        name: `${name} - ${new Date().toLocaleDateString()}`,
+        tasks: tasks.map((t) => ({
+          title: t.title,
+          description: t.description,
+          column: "todo" as const,
+          priority: "medium" as const,
+        })),
+      },
+      { onSuccess: (board) => router.push(`/kanban/${board.id}`) },
+    )
   }
 
   return (
@@ -86,6 +140,7 @@ export default function HistoryPage() {
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8"
+                        title="Copier le résultat"
                         onClick={() => handleCopy(entry.output, entry.id)}
                       >
                         {copiedId === entry.id ? (
@@ -93,6 +148,16 @@ export default function HistoryPage() {
                         ) : (
                           <Copy className="h-4 w-4" />
                         )}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        title="Créer un tableau Kanban"
+                        onClick={() => handleCreateKanban(entry.tool_slug, entry.output)}
+                        disabled={createKanban.isPending}
+                      >
+                        <Columns3 className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"

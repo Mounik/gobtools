@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { History, Wand2 } from "lucide-react"
+import { History, Wand2, Columns3 } from "lucide-react"
 import { ThemeToggle } from "./ThemeToggle"
 
 export function NavBar() {
@@ -19,6 +19,13 @@ export function NavBar() {
           >
             <History className="h-4 w-4" />
             Historique
+          </Link>
+          <Link
+            href="/kanban"
+            className="inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+          >
+            <Columns3 className="h-4 w-4" />
+            Kanban
           </Link>
           <ThemeToggle />
         </nav>

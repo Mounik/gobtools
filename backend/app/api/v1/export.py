@@ -1,40 +1,33 @@
-from uuid import UUID
-
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 from pydantic import BaseModel
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import get_db
-from app.repositories.history_repo import HistoryRepository
+from app.services import history_store
 from app.services.export_service import ExportService
 
 router = APIRouter(prefix="/export", tags=["export"])
 
 
 class ExportRequest(BaseModel):
-    history_id: UUID
+    history_id: str
     format: str = "markdown"
 
 
-def get_service(db: AsyncSession = Depends(get_db)) -> ExportService:
-    return ExportService(HistoryRepository(db))
-
-
 @router.post("")
-async def export_entry(
-    req: ExportRequest,
-    user_id: str = Query(...),
-    service: ExportService = Depends(get_service),
-):
+async def export_entry(req: ExportRequest):
+    items, _ = history_store.list_history(page=1, page_size=1000)
+    entry = next((h for h in items if h["id"] == req.history_id), None)
+    if entry is None:
+        raise HTTPException(status_code=404, detail="Entrée introuvable")
+
+    service = ExportService()
     try:
-        content, filename, media_type = await service.export(
-            req.history_id, UUID(user_id), req.format
-        )
-        return Response(
-            content=content,
-            media_type=media_type,
-            headers={"Content-Disposition": f'attachment; filename="{filename}"'},
-        )
+        content, filename, media_type = service.export(entry, req.format)
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return Response(
+        content=content,
+        media_type=media_type,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )

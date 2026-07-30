@@ -41,7 +41,7 @@ async def test_run_tool(client: AsyncClient):
         data = resp.json()
         assert "id" in data
         assert data["provider"] == "ollama"
-        assert data["model"] == "qwen3"
+        assert data["model"] == "qwen2.5:1.5b"
         assert "Mocked response" in data["output"]
 
 

@@ -66,9 +66,11 @@ services:
       LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
       LLM_MODEL: ${LLM_MODEL:-qwen2.5:1.5b}
       OLLAMA_BASE_URL: http://ollama:11434
+      HISTORY_DB_PATH: ${HISTORY_DB_PATH:-data/history.db}
     volumes:
       - plugins:/app/plugins
       - ../plugins:/app/plugins:ro
+      - backend-data:/app/data
     depends_on:
       postgres:
         condition: service_healthy
@@ -97,6 +99,7 @@ volumes:
   redis-data:
   ollama-data:
   plugins:
+  backend-data:
 
 networks:
   gobtools:
